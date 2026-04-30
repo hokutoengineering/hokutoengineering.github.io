@@ -1,9 +1,8 @@
 ---
 layout: home
-title: Welcome to My Site
 ---
 
-# Section
+# Contents
 
 - abc
 - xyz
