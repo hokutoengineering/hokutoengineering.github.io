@@ -11,3 +11,5 @@ title: Under Construction
 
 # Educational?
 
+- [漢字を探せ（ウォーリーではない）](https://hokutoengineering.github.io/Experiments/games/randomKanji.html)
+- [漢字ビンゴ](https://hokutoengineering.github.io/Experiments/games/kanjiBingo.html)
