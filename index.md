@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Under Construction
+title: void*
 ---
 
 # Games
