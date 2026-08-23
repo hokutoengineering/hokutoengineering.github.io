@@ -7,7 +7,7 @@ title: void*
 
 - [Tetris](https://hokutoengineering.github.io/Experiments/games/tetris.html)
 - [Puyo-puyo](https://hokutoengineering.github.io/Experiments/games/puyo.html)
-
+- [たまっち](https://hokutoengineering.github.io/Experiments/games/tamacchi1.html) 
 
 # Educational?
 
