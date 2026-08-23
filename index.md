@@ -63,6 +63,18 @@ title: void*
 
 <div class="game-grid">
   <div class="game-card">
+    <a href="/Experiments/games/neon_strike.html">
+      <img src="./imgs/neon.png" alt="">
+      <h3>Neon Strike</h3>
+    </a>
+  </div>
+  <div class="game-card">
+    <a href="/Experiments/games/tinyshooter.html">
+      <img src="./imgs/tinyshooter.png" alt="">
+      <h3>Tiny Shooter</h3>
+    </a>
+  </div>
+  <div class="game-card">
     <a href="/Experiments/games/tetris.html">
       <img src="./imgs/tetris.png" alt="Tetris preview">
       <h3>Tetris</h3>
