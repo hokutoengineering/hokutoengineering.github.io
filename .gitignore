@@ -1,0 +1,25 @@
+# Build output
+_site/
+
+# Platform thumbnails
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jekyll local dev (optional — uncomment if running jekyll serve locally)
+# Gemfile
+# Gemfile.lock
