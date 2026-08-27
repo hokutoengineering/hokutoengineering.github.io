@@ -103,3 +103,7 @@ title: void*
 
 - [MLPがどのように学んでいるかの可視化](https://hokutoengineering.github.io/Experiments/games/mlp_training.html)
 - [CNNがどのように学んでいるかの可視化](https://hokutoengineering.github.io/Experiments/games/cnn_visualization.html)
+
+
+<br/><br/>
+<img src="https://visitor-badge.laobi.icu/badge?page_id=https://hokutoengineering.github.io/index.md" alt="visitors">
