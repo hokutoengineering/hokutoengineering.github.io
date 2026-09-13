@@ -1,0 +1,27 @@
+# Books, Chapters, and Technical Texts
+#
+# Fields:
+#   id: Unique slug for URL routing (e.g. ?book=forward-plus)
+#   title: Book or chapter title
+#   authors: Author names
+#   venue: Publisher / Series / Venue
+#   year: Year of publication
+#   image: Filename in /imgs/
+#   file: Relative path to the markdown file to read (e.g. /books/forward_plus.md)
+#   description: Brief summary or abstract
+#   pdf: Optional URL to PDF
+#   epub: Optional URL to EPUB
+#   text: Optional URL to plain text or source text
+#   page: Optional project page link
+#   links: List of {label, url} for external references (Amazon, publisher, code)
+
+- id: gpuzen4
+  title: "怪人二十面相"
+  authors: "江戸川乱歩"
+  file: "/books/怪人二十面相.md"
+  links:
+    - label: "epub"
+      url: "https://www.amazon.co.jp/dp/xyz"
+    - label: "text"
+      url: "https://www.amazon.co.jp/dp/xyz"
+
