@@ -43,6 +43,7 @@ permalink: /library/
         <button id="btn-toggle-writing-mode" class="ctrl-btn" title="Toggle Vertical / Horizontal Writing Mode">横書き</button>
         <button id="btn-font-decrease" class="ctrl-btn" title="Decrease font size">A-</button>
         <button id="btn-font-increase" class="ctrl-btn" title="Increase font size">A+</button>
+        <button id="btn-toggle-theme" class="ctrl-btn" title="Toggle Light / Dark Theme">☀</button>
         <button id="btn-toggle-fullscreen" class="ctrl-btn" title="Toggle Fullscreen">⛶</button>
         <button id="btn-toggle-toc" class="ctrl-btn" title="Toggle Table of Contents">TOC</button>
       </div>
@@ -263,6 +264,117 @@ permalink: /library/
   border-color: #5aa9ff;
   color: #5aa9ff;
   font-weight: 600;
+}
+
+.library-app {
+  --library-bg: #0f0f0f;
+  --library-surface: #161616;
+  --library-surface-2: #181818;
+  --library-surface-3: #202020;
+  --library-border: #282828;
+  --library-text: #d8d8d8;
+  --library-text-strong: #fff;
+  --library-text-soft: #aaa;
+  --library-text-muted: #888;
+  --library-accent: #5aa9ff;
+  --library-accent-strong: #7ec0ff;
+  --library-muted-panel: #1c232d;
+}
+
+.library-app.theme-light {
+  --library-bg: #f5f3ee;
+  --library-surface: #ffffff;
+  --library-surface-2: #f0f0f0;
+  --library-surface-3: #f8f8f8;
+  --library-border: #d8d3ca;
+  --library-text: #2d2d2d;
+  --library-text-strong: #111111;
+  --library-text-soft: #555555;
+  --library-text-muted: #666666;
+  --library-accent: #2468c8;
+  --library-accent-strong: #3e7fe7;
+  --library-muted-panel: #edf3ff;
+}
+
+.library-app.theme-light .library-search-box input,
+.library-app.theme-light .book-card,
+.library-app.theme-light .reader-toolbar,
+.library-app.theme-light .reader-toc-sidebar,
+.library-app.theme-light .reader-content-wrap,
+.library-app.theme-light .reader-loading,
+.library-app.theme-light .reader-error {
+  background: var(--library-surface);
+  color: var(--library-text);
+}
+
+.library-app.theme-light .library-search-box input {
+  background: var(--library-surface);
+  border-color: var(--library-border);
+  color: var(--library-text-strong);
+}
+
+.library-app.theme-light .book-card {
+  border-color: var(--library-border);
+}
+
+.library-app.theme-light .book-card-title,
+.library-app.theme-light .reader-article h1,
+.library-app.theme-light .reader-article h2,
+.library-app.theme-light .reader-article h3,
+.library-app.theme-light .reader-article strong,
+.library-app.theme-light .reader-article h1,
+.library-app.theme-light .reader-article h2,
+.library-app.theme-light .reader-article h3 {
+  color: #111111;
+}
+
+.library-app.theme-light .book-card-authors,
+.library-app.theme-light .reader-meta-compact,
+.library-app.theme-light .reader-toc-sidebar a,
+.library-app.theme-light .reader-article blockquote,
+.library-app.theme-light .reader-loading,
+.library-app.theme-light .search-count {
+  color: var(--library-text-soft);
+}
+
+.library-app.theme-light .reader-toc-sidebar {
+  background: var(--library-surface-2);
+}
+
+.library-app.theme-light .reader-content-wrap {
+  border-color: var(--library-border);
+  color: var(--library-text);
+}
+
+.library-app.theme-light .reader-article blockquote {
+  background: var(--library-muted-panel);
+  border-left-color: var(--library-accent);
+}
+
+.library-app.theme-light .reader-article pre {
+  background: #f3f4f6 !important;
+  color: #1f2937;
+  border-color: var(--library-border);
+}
+
+.library-app.theme-light .reader-article table th {
+  background: var(--library-surface-3);
+}
+
+.library-app.theme-light .reader-toc-sidebar a.active,
+.library-app.theme-light .reader-toc-sidebar a:hover,
+.library-app.theme-light .book-external-links a,
+.library-app.theme-light .book-card-authors,
+.library-app.theme-light .reader-article a {
+  color: var(--library-accent);
+}
+
+.library-app.theme-light ruby {
+  color: #111111;
+}
+
+.library-app.theme-light ruby rt {
+  color: #111111;
 }
 
 .reader-view-fullscreen {
@@ -523,6 +635,30 @@ rp {
   padding: 1rem;
   overflow-x: auto;
 }
+
+.library-app.theme-light .reader-article h1,
+.library-app.theme-light .reader-article h2,
+.library-app.theme-light .reader-article h3,
+.library-app.theme-light .reader-article h4,
+.library-app.theme-light .reader-article h5,
+.library-app.theme-light .reader-article h6,
+.library-app.theme-light .reader-article strong,
+.library-app.theme-light .reader-article p,
+.library-app.theme-light .reader-article li,
+.library-app.theme-light .reader-content-wrap.vertical-mode .reader-article h1,
+.library-app.theme-light .reader-content-wrap.vertical-mode .reader-article h2,
+.library-app.theme-light .reader-content-wrap.vertical-mode .reader-article h3,
+.library-app.theme-light .reader-content-wrap.vertical-mode .reader-article h4,
+.library-app.theme-light .reader-content-wrap.vertical-mode .reader-article h5,
+.library-app.theme-light .reader-content-wrap.vertical-mode .reader-article h6 {
+  color: #111111;
+}
+
+.library-app.theme-light ruby,
+.library-app.theme-light rt,
+.library-app.theme-light ruby rt {
+  color: #111111;
+}
 .reader-article blockquote {
   border-left: 4px solid #5aa9ff;
   background: #1c232d;
@@ -605,10 +741,14 @@ rp {
   const tocSidebar = document.getElementById('reader-toc-sidebar');
   const btnToggleToc = document.getElementById('btn-toggle-toc');
   const btnToggleWritingMode = document.getElementById('btn-toggle-writing-mode');
+  const btnToggleTheme = document.getElementById('btn-toggle-theme');
   const btnToggleFullscreen = document.getElementById('btn-toggle-fullscreen');
   const btnFontDec = document.getElementById('btn-font-decrease');
   const btnFontInc = document.getElementById('btn-font-increase');
   const progressBar = document.getElementById('read-progress');
+  const libraryApp = document.querySelector('.library-app');
+  const THEME_KEY = 'library-theme';
+  let currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
 
   // Initialize Marked with Highlight.js
   if (window.marked) {
@@ -634,7 +774,16 @@ rp {
     console.error("Failed to parse books data:", e);
   }
 
-  // Set Writing Mode
+  function applyTheme(theme) {
+    currentTheme = theme;
+    libraryApp.classList.toggle('theme-light', theme === 'light');
+    libraryApp.classList.toggle('theme-dark', theme === 'dark');
+    btnToggleTheme.textContent = theme === 'light' ? '☾' : '☀';
+    btnToggleTheme.title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+    btnToggleTheme.classList.toggle('active', theme === 'light');
+    localStorage.setItem(THEME_KEY, theme);
+  }
+
   function setWritingMode(vertical) {
     isVertical = vertical;
     if (isVertical) {
@@ -660,6 +809,12 @@ rp {
   btnToggleWritingMode.onclick = () => {
     setWritingMode(!isVertical);
   };
+
+  btnToggleTheme.onclick = () => {
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  };
+
+  applyTheme(currentTheme);
 
   // Convert mouse wheel in vertical mode to horizontal scrolling (leftward scroll)
   contentWrap.addEventListener('wheel', (e) => {
