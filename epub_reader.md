@@ -208,7 +208,16 @@ title: EPUB Reader
     border: 1px solid #d8dee4;
     border-radius: 8px;
     background: #f8fafc;
-    overflow: hidden;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  #viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: white;
+    overflow: auto;
   }
 
   .viewer-status {
