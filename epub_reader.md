@@ -1,128 +1,208 @@
 ---
 layout: default
-title: EPUB Reader
+title: EPUB Reader & Library
 ---
 
-<!-- 1. External Libraries -->
+<!-- Include required libraries for ePub.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
 
-<!-- 2. Minimal CSS Styles -->
 <style>
-  .reader-container {
+  .epub-library-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    max-width: 800px;
-    margin: 0 auto;
-    font-family: system-ui, -apple-system, sans-serif;
+    gap: 20px;
+    margin-top: 20px;
   }
 
-  .file-select {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
+  .file-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    transition: background-color 0.2s ease;
+  }
+
+  .file-item:hover {
+    background-color: #f6f8fa;
+  }
+
+  .file-title {
+    font-weight: 600;
+    color: #0366d6;
+    cursor: pointer;
+    text-decoration: none;
+    flex-grow: 1;
+    margin-right: 15px;
+  }
+
+  .file-title:hover {
+    text-decoration: underline;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #d1d5da;
+    background-color: #fafbfc;
+    cursor: pointer;
+    text-decoration: none;
+    color: #24292e;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .btn:hover {
+    background-color: #f3f4f6;
+  }
+
+  .btn-primary {
+    background-color: #2ea44f;
+    color: #fff;
+    border-color: rgba(27,31,35,0.15);
+  }
+
+  .btn-primary:hover {
+    background-color: #2c974b;
+  }
+
+  #viewer-container {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #d1d5da;
     border-radius: 6px;
     background-color: #fff;
+  }
+
+  #viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
   }
 
   #viewer {
     width: 100%;
     height: 600px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border: 1px solid #e1e4e8;
     background: #fafafa;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
 
-  .controls {
+  .viewer-controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
-  }
-
-  .btn {
-    flex: 1;
-    padding: 10px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fff;
-  }
-
-  .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    margin-top: 15px;
   }
 </style>
 
-<!-- 3. HTML Layout -->
-<div class="reader-container">
-  
-  <!-- Dynamic File Selector populated via Jekyll Liquid -->
-  <select id="bookSelect" class="file-select">
-    <option value="" disabled selected>-- Select an EPUB file --</option>
-    {% for file in site.static_files %}
-      {% if file.path contains '/epubs/' and file.extname == '.epub' %}
-        <option value="{{ file.path | relative_url }}">{{ file.name }}</option>
-      {% endif %}
-    {% endfor %}
-  </select>
+<h2>Available Books</h2>
 
-  <!-- EPUB Render Area -->
+<ul class="file-list">
+  {% assign found_epubs = false %}
+  {% for file in site.static_files %}
+    {% if file.extname == '.epub' %}
+      {% assign found_epubs = true %}
+      {% assign file_name = file.basename | replace: "_", " " | replace: "-", " " %}
+      <li class="file-item">
+        <span class="file-title" onclick="loadBook('{{ file.path | relative_url }}', '{{ file.basename }}')">
+          📖 {{ file_name }}
+        </span>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="loadBook('{{ file.path | relative_url }}', '{{ file.basename }}')">Preview</button>
+          <a class="btn" href="{{ file.path | relative_url }}" download>Download</a>
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+
+  {% unless found_epubs %}
+    <p><em>No .epub files found. Place your .epub files inside an <code>epubs/</code> directory in your repository.</em></p>
+  {% endunless %}
+</ul>
+
+<div id="viewer-container">
+  <div id="viewer-header">
+    <h3 id="current-title" style="margin: 0;">Reading...</h3>
+    <button class="btn" onclick="closeViewer()">✕ Close Preview</button>
+  </div>
+  
   <div id="viewer"></div>
 
-  <!-- Navigation Buttons -->
-  <div class="controls">
-    <button id="prev" class="btn" disabled>← Previous</button>
-    <button id="next" class="btn" disabled>Next →</button>
+  <div class="viewer-controls">
+    <button class="btn" id="prev" onclick="prevPage()">← Previous</button>
+    <button class="btn" id="next" onclick="nextPage()">Next →</button>
   </div>
 </div>
 
-<!-- 4. Logic Script -->
 <script>
-  let book = null;
+  let currentBook = null;
   let rendition = null;
 
-  const bookSelect = document.getElementById("bookSelect");
-  const prevBtn = document.getElementById("prev");
-  const nextBtn = document.getElementById("next");
+  function loadBook(url, title) {
+    const container = document.getElementById("viewer-container");
+    const titleElement = document.getElementById("current-title");
+    
+    // Display section and update header title
+    container.style.display = "block";
+    titleElement.textContent = "Previewing: " + title;
+    
+    // Smooth scroll down to viewer
+    container.scrollIntoView({ behavior: 'smooth' });
 
-  // Load selected book
-  bookSelect.addEventListener("change", (e) => {
-    const fileUrl = e.target.value;
-    if (!fileUrl) return;
-
-    // Clean up previous instance if loaded
-    if (book) {
-      book.destroy();
+    // Clean up previous book instance if open
+    if (rendition) {
+      rendition.destroy();
     }
 
-    // Initialize new EPUB reader
-    book = ePub(fileUrl);
-    rendition = book.renderTo("viewer", {
+    // Initialize ePub.js
+    currentBook = ePub(url);
+    rendition = currentBook.renderTo("viewer", {
       width: "100%",
       height: "100%",
       spread: "always"
     });
 
     rendition.display();
+  }
 
-    // Enable navigation controls
-    prevBtn.disabled = false;
-    nextBtn.disabled = false;
-  });
+  function nextPage() {
+    if (rendition) rendition.next();
+  }
 
-  // Navigation handlers
-  prevBtn.addEventListener("click", () => rendition && rendition.prev());
-  nextBtn.addEventListener("click", () => rendition && rendition.next());
+  function prevPage() {
+    if (rendition) rendition.prev();
+  }
 
-  // Keyboard navigation support
-  document.addEventListener("keyup", (e) => {
+  function closeViewer() {
+    document.getElementById("viewer-container").style.display = "none";
+    if (rendition) {
+      rendition.destroy();
+      rendition = null;
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener("keyup", function(e) {
     if (!rendition) return;
-    if (e.key === "ArrowLeft") rendition.prev();
-    if (e.key === "ArrowRight") rendition.next();
+    if (e.key === "ArrowLeft") prevPage();
+    if (e.key === "ArrowRight") nextPage();
   });
 </script>
